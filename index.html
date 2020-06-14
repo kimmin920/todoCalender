@@ -3,9 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calander</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5fab680b0a.js" crossorigin="anonymous"></script>
+    <title>Monthly TODO</title>
 </head>
 <body>
-    
+    <div id="app-container">
+        <div class="calender-container">
+            <div class="calender_title">
+                <h2 class="calender_title-text"> 
+                    <span class="calender_title_prev-month-btn"> < </span>
+                    <span class="calender_title_month"></span>
+                    <span class="calender_title_year"></span>
+                    <span class="calender_title_next-month-btn"> > </span>
+                </h2>
+            </div>
+            <table class="calender-table">
+                <tr class="calender_table_tr-days">
+                    <th class="calender_days_day">MON</th>
+                    <th class="calender_days_day">TUE</th>
+                    <th class="calender_days_day">WED</th>
+                    <th class="calender_days_day">THU</th>
+                    <th class="calender_days_day">FRI</th>
+                    <th class="calender_days_day">SAT</th>
+                    <th class="calender_days_day">SUN</th>
+                </tr>
+            </table>
+            <div class="weather-container">
+                <div id="weatherIcon" class="todo_header_time_weather"></div> 
+                <div class="weatherInfo">Weather </div>
+            </div>
+            <div class="todo_footer_alert"></div>
+        </div>
+        <div class="todo-list-container">
+            <header class="todo_header">
+                <div class="todo_header_navs">
+                    <span class="cog"><i class="fas fa-cog"></i></span>
+                    <span class="alarm"> <i class="far fa-bell"></i></span>
+                </div>
+                <div class="todo_header_time">00:00:00</div>
+                <div class="todo_header_avatar"> <i class="fas fa-stream"></i> </div>
+            </header>
+            <div class="todo_greeting">
+                <h3 class="todo_greeting_hello">Hello,</h3>
+                <input type="text" class="todo_greeting_input" placeholder="What your name?">
+            </div>
+            <main class="todo_list-container">
+                <div class="todo_list_pending-container">
+                    <div class="todo_list_title">
+                      <h4>TO-DO</h4>
+                    </div>
+                    <ul class="todo_list_pending_ul">
+                    </ul>
+                </div>
+                <div class="todo_list_finished-container">
+                  <div class="todo_list_finished_title">
+                    <h4>DONE</h4>
+                  </div>
+                    <ul class="todo_list_finished_ul">
+                    </ul>
+                </div>
+            </main>
+            <footer class="todo_footer">
+                <form class="todo_footer_form">
+                    <input type="text" name="task" placeholder="add tasks ">
+                    </input>
+                </form>
+                <div class="todo_footer_form_plus-icon">
+                        +
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="background.js"></script>
+    <script src="calender.js"></script>
+    <script src="greeting.js"></script>
+    <script src="todo.js"></script>
+    <script src="time.js"></script>
+    <script src="weather.js"></script>
 </body>
 </html>
