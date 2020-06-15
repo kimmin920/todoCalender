@@ -23,15 +23,21 @@ function paintThisMonth(prev, next){
         const NumOfRows = calenderTable.rows.length;
         deleteRows(NumOfRows);
         thisMonth = thisMonth-1;
+        thisMonth < 1 ? (thisMonth=12 , thisYear -= 1 ) : null;
     }
     if(next){
         const NumOfRows = calenderTable.rows.length;
         deleteRows(NumOfRows);
         thisMonth = thisMonth+1;
+        thisMonth > 12 ? (thisMonth=1 , thisYear += 1 ) : null;
     }
     let firstDay = new Date(thisYear, thisMonth-1, 1);
     let lastDay = new Date(thisYear, thisMonth, 0);
     let firstDayofWeek = firstDay.getDay();
+    
+    // firstdayofWeek 은 0~6(일~토) 을 return함 하지만 이 달력은 월~일. 값이  0일때 달력이 잘못나옴
+    // 해결: 0 이 나오면 7로 -> 일요일
+    firstDayofWeek = (firstDayofWeek === 0) ? 7 : firstDayofWeek;
     let lastDayDate = lastDay.getDate();
     
     let row = null;
