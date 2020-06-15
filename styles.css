@@ -10,6 +10,13 @@ h3, h4{
     font-weight: lighter;
     margin:0;   
 }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }to{
+        opacity: 1;
+    }
+}
 body{
     font-family: 'Balsamiq Sans', cursive;
     background-image: url("https://cdn.pixabay.com/photo/2019/05/19/23/47/clouds-4215608_960_720.jpg");
@@ -18,12 +25,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.display_none{
-    display: none;
-}
-.display_block{
-    display: block;
+    animation: fadeIn 0.5s linear;
 }
 
 #app-container{
@@ -48,6 +50,12 @@ body{
 .calender_title{
     margin-bottom: 30px;
 }
+.calender_title_prev-month-btn{
+    cursor: pointer;
+}
+.calender_title_next-month-btn{
+    cursor: pointer;
+}
 .calender-container{
     width: 70%;
     display: flex;
@@ -70,6 +78,7 @@ td{
     border-radius: 50%;
     height:30px;
     width: 30px;
+    cursor: pointer;
 }
 .sunday{
     color: red;
@@ -216,6 +225,7 @@ h4{
 }
     
 .todo_list-container li{
+    font-family: 'Balsamiq Sans', cursive;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -233,3 +243,14 @@ button {
     cursor: pointer;
     margin-left: 5px;
   }
+
+
+
+  /* display control */
+
+  .display_none{
+    display: none;
+}
+.display_block{
+    display: block;
+}

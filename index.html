@@ -6,12 +6,13 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Loved+by+the+King&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/5fab680b0a.js" crossorigin="anonymous"></script>
     <title>Monthly TODO</title>
 </head>
 <body>
     <div id="app-container">
-        <div class="calender-container">
+        <div class="calender-container" id="calender-container">
             <div class="calender_title">
                 <h2 class="calender_title-text"> 
                     <span class="calender_title_prev-month-btn"> < </span>
@@ -28,7 +29,7 @@
                     <th class="calender_days_day">THU</th>
                     <th class="calender_days_day">FRI</th>
                     <th class="calender_days_day">SAT</th>
-                    <th class="calender_days_day">SUN</th>
+                    <th class="calender_days_day sunday">SUN</th>
                 </tr>
             </table>
             <div class="weather-container">
@@ -40,8 +41,9 @@
         <div class="todo-list-container">
             <header class="todo_header">
                 <div class="todo_header_navs">
-                    <span class="cog"><i class="fas fa-cog"></i></span>
-                    <span class="alarm"> <i class="far fa-bell"></i></span>
+                    <span class="todo_header_navs_calBtn"><i class="far fa-calendar"></i></span>
+                    <!-- <span class="cog"><i class="fas fa-cog"></i></span>
+                    <span class="alarm"> <i class="far fa-bell"></i></span> -->
                 </div>
                 <div class="todo_header_time">00:00:00</div>
                 <div class="todo_header_avatar"> <i class="fas fa-stream"></i> </div>
@@ -83,5 +85,6 @@
     <script src="todo.js"></script>
     <script src="time.js"></script>
     <script src="weather.js"></script>
+    <script src="screen.js"></script>
 </body>
 </html>

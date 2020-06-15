@@ -1,25 +1,44 @@
 const titleMonth = document.querySelector(".calender_title_month");
 const titleYear = document.querySelector(".calender_title_year");
 const calenderTable = document.querySelector(".calender-table");
+const prevMonthBtn = document.querySelector(".calender_title_prev-month-btn");
+const nextMonthBtn = document.querySelector(".calender_title_next-month-btn");
 
 monthList = ['NOTINUSE','JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
 
-const today = new Date();
-const thisMonth = today.getMonth()+1; 
+let today = new Date();
+let thisMonth = today.getMonth()+1; 
+let thisYear = today.getFullYear();
 
-const thisYear = today.getFullYear();
+function deleteRows(num){
+    let i = 0;
+    // num is the length of Rows. 
+    for(i; i < num-1; i++){
+        calenderTable.deleteRow(-1);
+    }
+}
 
-const firstDay = new Date(thisYear, thisMonth-1, 1);
-const firstDayDate = firstDay.getDate();
-const firstDayofWeek = firstDay.getDay();
-
-const lastDay = new Date(thisYear, thisMonth, 0);
-const lastDayDate = lastDay.getDate();
-
-function paintThisMonth(){
+function paintThisMonth(prev, next){
+    if(prev){
+        const NumOfRows = calenderTable.rows.length;
+        deleteRows(NumOfRows);
+        thisMonth = thisMonth-1;
+    }
+    if(next){
+        const NumOfRows = calenderTable.rows.length;
+        deleteRows(NumOfRows);
+        thisMonth = thisMonth+1;
+    }
+    let firstDay = new Date(thisYear, thisMonth-1, 1);
+    let lastDay = new Date(thisYear, thisMonth, 0);
+    let firstDayofWeek = firstDay.getDay();
+    let lastDayDate = lastDay.getDate();
+    
     let row = null;
     row = calenderTable.insertRow();
     let count = 0;
+    // paint month title
+    paintCalenderTitle();
     // 날짜가 시작되기 전 날들(공백셀)만듦
     for (i=0; i<firstDayofWeek-1; i++ ){
         cell = row.insertCell(); 
@@ -36,7 +55,7 @@ function paintThisMonth(){
             cell.classList.add("sunday");
         }
         //  today 색칠
-        if ( i === today.getDate()){
+        if ( !prev && !next && i === today.getDate()){
             cell.classList.add("today");
         }
     }
@@ -47,6 +66,22 @@ function paintCalenderTitle(){
     titleMonth.innerHTML = monthList[thisMonth];
     titleYear.innerHTML = thisYear;
 }
-paintThisMonth();
-paintCalenderTitle();
 
+function handlePrevMonth(){
+    let prev = true;
+    paintThisMonth(prev);
+}
+function handleNextMonth(){
+    let prev = null;
+    let next = true;
+    paintThisMonth(prev,next);
+}
+
+function init(){
+    paintThisMonth();
+    // prev, next month button
+    prevMonthBtn.addEventListener("click", handlePrevMonth);
+    nextMonthBtn.addEventListener("click", handleNextMonth);
+}
+
+init();
