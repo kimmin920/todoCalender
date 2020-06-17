@@ -3,6 +3,8 @@ const pending = document.querySelector(".todo_list_pending_ul");
 const finished = document.querySelector(".todo_list_finished_ul");
 const alert = document.querySelector(".todo_footer_alert");
 const plusBtn = document.querySelector(".todo_footer_form_plus-icon");
+const todoDate = document.querySelector(".todo_list_title");  
+const todoTbody = document.querySelector("tbody");
 
 let pendingArr = [];
 let finishedArr = [];
@@ -19,7 +21,7 @@ function handleRewind(e) {
 function setFinishedLS() {
   localStorage.setItem("finishedArr", JSON.stringify(finishedArr));
 }
-function makeDoneList(value, id) {
+function makeDoneList(value, id, date) {
   const btnBox = document.createElement("span");
   const delBtn = document.createElement("button");
   delBtn.innerText = "✖️";
@@ -33,12 +35,15 @@ function makeDoneList(value, id) {
   btnBox.appendChild(rewindBtn);
   newLi.appendChild(btnBox);
   finished.appendChild(newLi);
+  // need to fix
+  const newDate = date; 
   const liObj = {
     id: newId,
-    text: value
+    text: value,
+    date : newDate
   };
-  finishedArr.push(liObj);
-  setFinishedLS();
+    finishedArr.push(liObj);
+    setFinishedLS();
   delBtn.addEventListener("click", handleDelete);
   rewindBtn.addEventListener("click", handleRewind);
 }
@@ -61,7 +66,6 @@ function deleteDoneLS(id) {
 function handleDelete(e) {
   const btn = e.target.parentNode.parentNode;
   let listName = btn.parentNode.className;
-  console.log(listName);
   const id = btn.id;
   if (listName === "todo_list_pending_ul") {
     pending.removeChild(btn);
@@ -76,16 +80,18 @@ function handleDone(e) {
   const btn = e.target.parentNode.parentNode;
   pending.removeChild(btn);
   const id = btn.id;
+  console.log(btn)
   let value;
-  pendingArr.map(each => each.id === id && (value = each.text));
+  let date;
+  pendingArr.map(each => each.id === id && (value = each.text, date=each.date));
   deleteLS(id);
-  makeDoneList(value, id);
+  makeDoneList(value, id, date);
 }
 
 function setPendingLS() {
   localStorage.setItem("pendingArr", JSON.stringify(pendingArr));
 }
-function makePendingList(value, id) {
+function makePendingList(value, id, date, refresh) {
   // create buttons.
   const btnBox = document.createElement("span");
   const delBtn = document.createElement("button");
@@ -103,9 +109,13 @@ function makePendingList(value, id) {
   newLi.appendChild(btnBox);
   pending.appendChild(newLi);
   form.task.value = "";
+
+  const newDate = date || todoDate.innerText; 
+ 
   const liObj = {
     id: newId,
-    text: value
+    text: value,
+    date: newDate
   };
   pendingArr.push(liObj);
   setPendingLS();
@@ -128,19 +138,42 @@ function handleSubmit(e) {
     makePendingList(value);
   }
 }
+function toFinishedArr(text,id,date){
+  const otherDaysObj = {
+    id,
+    text,
+    date
+  }
+  finishedArr.push(otherDaysObj);
+}
 function callFinishedLS() {
   const doneLS = localStorage.getItem("finishedArr");
   if (doneLS !== null) {
+    finishedArr=[];
     const arr = JSON.parse(doneLS);
-    arr.map(e => makeDoneList(e.text, e.id));
+    arr.map(e => e.date === todoDate.innerText ? makeDoneList(e.text, e.id, e.date || null) 
+                                               : toFinishedArr(e.text, e.id, e.date));
+    setFinishedLS();
   }
+}
+
+function toPendingArr(text,id,date){
+  const otherDaysObj = {
+    id,
+    text,
+    date
+  }
+  pendingArr.push(otherDaysObj);
 }
 
 function callPendingLS() {
   const todosLS = localStorage.getItem("pendingArr");
   if (todosLS !== null) {
+    pendingArr = [];
     const arr = JSON.parse(todosLS);
-    arr.map(e => makePendingList(e.text, e.id));
+    arr.map( e => e.date === todoDate.innerText ?  makePendingList(e.text, e.id, e.date || null) 
+                                               :  toPendingArr(e.text, e.id, e.date) );
+    setPendingLS();
   }
 }
 function handlePlusBtn(){
@@ -154,6 +187,15 @@ function hideInput(){
     plusBtn.removeEventListener("click", hideInput)
     plusBtn.addEventListener("click", handlePlusBtn);
 }
+function cleanUpTodo (){
+  pending.innerHTML="";
+  finished.innerHTML="";
+}
+function changeDate(){
+  cleanUpTodo();
+  callPendingLS();
+  callFinishedLS();
+}
 function init() {
   // from localstorage to DOM.
   callPendingLS();
@@ -162,6 +204,7 @@ function init() {
   // add task(input) submit event.
   form.addEventListener("submit", handleSubmit);
   plusBtn.addEventListener("click", handlePlusBtn);
+  todoTbody.addEventListener("click", changeDate);
 }
 
 init();

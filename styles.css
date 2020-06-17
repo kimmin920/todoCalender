@@ -49,12 +49,16 @@ body{
 /*  calender.css */
 .calender_title{
     margin-bottom: 30px;
+    color: rgb(65, 64, 64);
 }
 .calender_title_prev-month-btn{
     cursor: pointer;
+    /* color: #fc9f9f; */
+    color: #6ca5c5;
 }
 .calender_title_next-month-btn{
     cursor: pointer;
+    color: #6ca5c5;
 }
 .calender-container{
     width: 70%;
@@ -79,6 +83,15 @@ td{
     height:30px;
     width: 30px;
     cursor: pointer;
+}
+td:hover{
+   background-color: rgba(199, 199, 199, 0.438);
+}
+tbody .selected-date{
+    background-color: #ffffffbe;
+    -webkit-box-shadow: 0px 0px 8px 3px #ffffff80;
+    -moz-box-shadow: 0px 0px 8px 3px #ffffff80;
+    box-shadow: 0px 0px 8px 3px #ffffff80;
 }
 .sunday{
     color: red;
