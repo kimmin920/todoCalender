@@ -6,9 +6,11 @@ const nextMonthBtn = document.querySelector(".calender_title_next-month-btn");
 const tbody = document.querySelector("tbody");
 const todoTitle = document.querySelector(".todo_list_title");
 
-monthList = ['NOTINUSE','JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+const monthList = ['NOTINUSE','JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
 
 let today = new Date();
+const todayMonth = today.getMonth()+1;
+const todayYear = today.getFullYear();
 let thisMonth = today.getMonth()+1; 
 let thisYear = today.getFullYear();
 
@@ -20,7 +22,7 @@ function deleteRows(num){
     }
 }
 
-function paintThisMonth(prev, next){
+function paintThisMonth(prev, next, todayBtn){
     if(prev){
         const NumOfRows = calenderTable.rows.length;
         deleteRows(NumOfRows);
@@ -32,6 +34,12 @@ function paintThisMonth(prev, next){
         deleteRows(NumOfRows);
         thisMonth = thisMonth+1;
         thisMonth > 12 ? (thisMonth=1 , thisYear += 1 ) : null;
+    }
+    if(todayBtn){
+        const NumOfRows = calenderTable.rows.length;
+        deleteRows(NumOfRows);
+        thisMonth = todayMonth;
+        thisYear =todayYear;
     }
     let firstDay = new Date(thisYear, thisMonth-1, 1);
     let lastDay = new Date(thisYear, thisMonth, 0);
@@ -62,9 +70,10 @@ function paintThisMonth(prev, next){
             row = calenderTable.insertRow();
             cell.classList.add("sunday");
         }
-        //  today 색칠
-        if ( !prev && !next && i === today.getDate()){
+        //  paint today !
+        if ( todayMonth === thisMonth && i === today.getDate()){
             cell.classList.add("selected-date");
+            cell.id = "today";
             todoTitle.innerHTML = `${cell.innerText}, ${titleMonth.innerHTML}, ${titleYear.innerHTML}`;
         }
     }
@@ -79,11 +88,13 @@ function paintCalenderTitle(){
 function handlePrevMonth(){
     let prev = true;
     paintThisMonth(prev);
+    paintDateWithPending();
 }
 function handleNextMonth(){
     let prev = null;
     let next = true;
     paintThisMonth(prev,next);
+    paintDateWithPending();
 }
 
 function removeSelectedAndToday(){
@@ -105,9 +116,37 @@ function handleClickDate(e){
     }
 }
 
+function paintUnderlineOnDate(dateToPaint){ 
+    let dateOncal;
+    [...tbody.querySelectorAll("td")].map(each=> ( each.innerText === dateToPaint)
+                                                            ? each.classList.add("date_underline")
+                                                            : null );   
+}
+
+function checkPendingDate(date){
+    const monthOncalender = " " + titleMonth.innerText;
+    const yearOncalender = " " + titleYear.innerText;
+    if (date[2] === yearOncalender && date[1] === monthOncalender){
+        const dateToPaint =  date[0];
+        paintUnderlineOnDate(dateToPaint);
+    }
+}
+
+function paintDateWithPending(){
+    
+
+    const getPendingLS = JSON.parse(localStorage.getItem("pendingArr"));
+
+    getPendingLS.map( e => {
+                       let date = e.date.split(",");
+                        checkPendingDate(date);
+                        }
+                    );
+}
 function init(){
     
     paintThisMonth();
+    paintDateWithPending();
     // prev, next month button
     prevMonthBtn.addEventListener("click", handlePrevMonth);
     nextMonthBtn.addEventListener("click", handleNextMonth);

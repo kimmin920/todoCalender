@@ -5,6 +5,9 @@ const alert = document.querySelector(".todo_footer_alert");
 const plusBtn = document.querySelector(".todo_footer_form_plus-icon");
 const todoDate = document.querySelector(".todo_list_title");  
 const todoTbody = document.querySelector("tbody");
+const goTodayBtn = document.querySelector(".todo_list_pending_todayBtn");
+const goTodayBtnText = goTodayBtn.querySelector(".todayBtn_text");
+const monthOnCalender = document.querySelector(".calender_title_month");
 
 let pendingArr = [];
 let finishedArr = [];
@@ -196,6 +199,36 @@ function changeDate(){
   callPendingLS();
   callFinishedLS();
 }
+
+// go today button function 
+function handleGoToday(){
+  // get today's data 
+  const todayDate = new Date().getDate();
+  // monthlist is in calender.js
+  const thisMonth = monthList[new Date().getMonth()+1];
+  const thisYear = new Date().getFullYear();
+
+  const today = `${todayDate}, ${thisMonth}, ${thisYear}`;
+
+  // if today's month is not equal to the month in the calender(calender title) -> click first sunday(okay to be any date)
+  // because function works when date on todolist and today are different. 
+
+  // when user is on other months.
+  if(monthOnCalender.innerText !== thisMonth){
+    tbody.querySelector("td.sunday").click();
+  }
+
+  const currentDate = todoDate.innerText;
+
+  if(today === currentDate){
+    return
+  }else {
+    // third argument is for clicking go today button
+    paintThisMonth(null,null,true);
+    document.getElementById("today").click();
+  }
+}
+
 function init() {
   // from localstorage to DOM.
   callPendingLS();
@@ -205,6 +238,8 @@ function init() {
   form.addEventListener("submit", handleSubmit);
   plusBtn.addEventListener("click", handlePlusBtn);
   todoTbody.addEventListener("click", changeDate);
+  // btn to go TODAY!
+  goTodayBtn.addEventListener("click", handleGoToday);
 }
 
 init();
