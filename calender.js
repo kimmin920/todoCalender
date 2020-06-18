@@ -77,6 +77,7 @@ function paintThisMonth(prev, next, todayBtn){
             todoTitle.innerHTML = `${cell.innerText}, ${titleMonth.innerHTML}, ${titleYear.innerHTML}`;
         }
     }
+    paintDateWithPending();
 }
 
 
@@ -121,6 +122,7 @@ function paintUnderlineOnDate(dateToPaint){
     [...tbody.querySelectorAll("td")].map(each=> ( each.innerText === dateToPaint)
                                                             ? each.classList.add("date_underline")
                                                             : null );   
+                                                            console.log("painton")
 }
 
 function checkPendingDate(date){
@@ -133,10 +135,10 @@ function checkPendingDate(date){
 }
 
 function paintDateWithPending(){
-    
-
     const getPendingLS = JSON.parse(localStorage.getItem("pendingArr"));
-
+    if(!getPendingLS){
+        return
+    }
     getPendingLS.map( e => {
                        let date = e.date.split(",");
                         checkPendingDate(date);
@@ -146,7 +148,6 @@ function paintDateWithPending(){
 function init(){
     
     paintThisMonth();
-    paintDateWithPending();
     // prev, next month button
     prevMonthBtn.addEventListener("click", handlePrevMonth);
     nextMonthBtn.addEventListener("click", handleNextMonth);

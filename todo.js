@@ -140,6 +140,7 @@ function handleSubmit(e) {
     alert.innerHTML = "";
     makePendingList(value);
   }
+  paintDateWithPending();
 }
 function toFinishedArr(text,id,date){
   const otherDaysObj = {
