@@ -107,6 +107,11 @@ function removeSelectedAndToday(){
 }
 
 function handleClickDate(e){
+    const tagName = e.target.tagName;
+    // if days(mon~sun) or tr of days clicked, return  
+    if(tagName === "TH" || tagName==="TR"){
+        return
+    }
     removeSelectedAndToday();
     const date = e.target.tagName === "TD" ? e.target.innerHTML : null ;
     if(date){
